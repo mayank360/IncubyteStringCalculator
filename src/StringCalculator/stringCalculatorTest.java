@@ -22,6 +22,8 @@ public class stringCalculatorTest {
             Assertions.assertEquals(add("//[;]\n1\n2;3\n4000"), 6);
             Assertions.assertEquals(add("//[***]\n1***2***3***4"), 10);
             Assertions.assertEquals(add("//[***]\n1\n2***3\n4000"), 6);
+            Assertions.assertEquals(add("//[*][%]\n1*2%3"), 6);
+            Assertions.assertEquals(add("//[**][%%%]\n1**2%%%3"), 6);
 
             Assertions.assertEquals(add("//[;]\n1\n2;3\n-40,-6"), "exception");
 
@@ -33,12 +35,13 @@ public class stringCalculatorTest {
     private int add(String s) {
         int sum = 0;
         if(!s.isEmpty()) {
-            String delim = ",";     // default delim
-            if(s.contains("[")) {
-                delim = s.substring(s.indexOf("[") + 1, s.indexOf("]"));   //new delim
-                s = s.substring(s.indexOf("\n") + 1);
-            }
-            s = s.replace(delim,"\n");
+
+            if(s.contains("["))
+                s = getModifiedString(s);
+
+            else
+                s = s.replace(",", "\n");
+
             String[] numbers = s.split("\n");
             List negatives = new ArrayList();
 
@@ -53,5 +56,16 @@ public class stringCalculatorTest {
                 throw new RuntimeException("negatives not allowed : " + negatives);
         }
         return sum;
+    }
+
+    private static String getModifiedString(String s) {
+        String[] parts = s.substring(0, s.indexOf("\n")).split("]");
+        s = s.substring(s.indexOf("\n") + 1);
+
+        for(String part:parts) {
+            String delim = part.substring(part.indexOf("[") + 1);
+            s = s.replace(delim,"\n");
+        }
+        return s;
     }
 }
