@@ -15,13 +15,20 @@ public class stringCalculatorTest {
         Assertions.assertEquals(add("1,2,4,3"), 10);
         Assertions.assertEquals(add("1\n2,3,4"), 10);
         Assertions.assertEquals(add("1\n2,3\n4"), 10);
+        Assertions.assertEquals(add("//[;]\n1;2;3;4"), 10);
+        Assertions.assertEquals(add("//[;]\n1\n2;3\n40"), 46);
     }
 
     private int add(String s) {
         int sum = 0;
         if(!s.isEmpty()) {
-            s = s.replace("\n", ",");
-            String[] numbers = s.split(",");
+            String delim = ",";     // default delim
+            if(s.contains("[")) {
+                delim = String.valueOf(s.charAt(s.indexOf("[") + 1));   //new delim
+                s = s.substring(s.indexOf("\n") + 1);
+            }
+            s = s.replace("\n", delim);
+            String[] numbers = s.split(delim);
             for (String num : numbers)
                 sum += Integer.parseInt(num);
         }
