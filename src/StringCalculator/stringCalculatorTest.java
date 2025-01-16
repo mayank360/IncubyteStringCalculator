@@ -11,11 +11,17 @@ public class stringCalculatorTest {
         Assertions.assertEquals(add(""), 0);
         Assertions.assertEquals(add("1"), 1);
         Assertions.assertEquals(add("5"), 5);
+        Assertions.assertEquals(add("1,2"), 3);
+        Assertions.assertEquals(add("1,2,4,3"), 10);
     }
 
     private int add(String s) {
+        int sum = 0;
         if(s.isEmpty())
             return 0;
-        return Integer.parseInt(s);
+        String[] numbers = s.split(",");
+        for(String num:numbers)
+            sum += Integer.parseInt(num);
+        return sum;
     }
 }
