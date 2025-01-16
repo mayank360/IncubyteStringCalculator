@@ -4,19 +4,26 @@ package StringCalculator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class stringCalculatorTest {
     @Test
     public void addTest(){
+        try {
+            Assertions.assertEquals(add(""), 0);
+            Assertions.assertEquals(add("1"), 1);
+            Assertions.assertEquals(add("5"), 5);
+            Assertions.assertEquals(add("1,2"), 3);
+            Assertions.assertEquals(add("1,2,4,3"), 10);
+            Assertions.assertEquals(add("1\n2,3,4000"), 6);
+            Assertions.assertEquals(add("1\n2,3\n4"), 10);
+            Assertions.assertEquals(add("//[;]\n1;2;3;4"), 10);
+            Assertions.assertEquals(add("//[;]\n1\n2;3\n-40,-6"), "exception");
 
-        Assertions.assertEquals(add(""), 0);
-        Assertions.assertEquals(add("1"), 1);
-        Assertions.assertEquals(add("5"), 5);
-        Assertions.assertEquals(add("1,2"), 3);
-        Assertions.assertEquals(add("1,2,4,3"), 10);
-        Assertions.assertEquals(add("1\n2,3,4"), 10);
-        Assertions.assertEquals(add("1\n2,3\n4"), 10);
-        Assertions.assertEquals(add("//[;]\n1;2;3;4"), 10);
-        Assertions.assertEquals(add("//[;]\n1\n2;3\n40"), 46);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     private int add(String s) {
@@ -29,8 +36,17 @@ public class stringCalculatorTest {
             }
             s = s.replace("\n", delim);
             String[] numbers = s.split(delim);
-            for (String num : numbers)
-                sum += Integer.parseInt(num);
+            List negatives = new ArrayList();
+
+            for (String num : numbers) {
+                int n = Integer.parseInt(num);
+                if (n < 0){
+                    negatives.add(num);
+                }
+                    sum += n;
+            }
+            if(!negatives.isEmpty())
+                throw new RuntimeException("negatives not allowed : " + negatives);
         }
         return sum;
     }
