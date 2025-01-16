@@ -20,6 +20,8 @@ public class stringCalculatorTest {
             Assertions.assertEquals(add("1\n2,3\n4"), 10);
             Assertions.assertEquals(add("//[;]\n1;2;3;4"), 10);
             Assertions.assertEquals(add("//[;]\n1\n2;3\n4000"), 6);
+            Assertions.assertEquals(add("//[***]\n1***2***3***4"), 10);
+            Assertions.assertEquals(add("//[***]\n1\n2***3\n4000"), 6);
 
             Assertions.assertEquals(add("//[;]\n1\n2;3\n-40,-6"), "exception");
 
@@ -33,18 +35,17 @@ public class stringCalculatorTest {
         if(!s.isEmpty()) {
             String delim = ",";     // default delim
             if(s.contains("[")) {
-                delim = String.valueOf(s.charAt(s.indexOf("[") + 1));   //new delim
+                delim = s.substring(s.indexOf("[") + 1, s.indexOf("]"));   //new delim
                 s = s.substring(s.indexOf("\n") + 1);
             }
-            s = s.replace("\n", delim);
-            String[] numbers = s.split(delim);
+            s = s.replace(delim,"\n");
+            String[] numbers = s.split("\n");
             List negatives = new ArrayList();
 
             for (String num : numbers) {
                 int n = Integer.parseInt(num);
-                if (n < 0){
+                if (n < 0)
                     negatives.add(num);
-                }
                 if(n<=1000)
                     sum += n;
             }
