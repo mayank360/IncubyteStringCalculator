@@ -23,9 +23,9 @@ public class stringCalculatorTest {
             Assertions.assertEquals(add("//[***]\n1***2***3***4"), 10);
             Assertions.assertEquals(add("//[***]\n1\n2***3\n4000"), 6);
             Assertions.assertEquals(add("//[*][%]\n1*2%3"), 6);
-            Assertions.assertEquals(add("//[**][%%%]\n1**2%%%3"), 6);
+            Assertions.assertEquals(add("//[**][%%%][@#]\n1**2%%%3@#4"), 10);
 
-            Assertions.assertEquals(add("//[;]\n1\n2;3\n-40,-6"), "exception");
+            Assertions.assertEquals(add("//[;]\n1\n2;3\n-40;-6"), "exception");
 
         } catch (Exception e) {
             System.out.println(e);
