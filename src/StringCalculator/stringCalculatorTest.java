@@ -19,6 +19,8 @@ public class stringCalculatorTest {
             Assertions.assertEquals(add("1\n2,3,4000"), 6);
             Assertions.assertEquals(add("1\n2,3\n4"), 10);
             Assertions.assertEquals(add("//[;]\n1;2;3;4"), 10);
+            Assertions.assertEquals(add("//[;]\n1\n2;3\n4000"), 6);
+
             Assertions.assertEquals(add("//[;]\n1\n2;3\n-40,-6"), "exception");
 
         } catch (Exception e) {
@@ -43,6 +45,7 @@ public class stringCalculatorTest {
                 if (n < 0){
                     negatives.add(num);
                 }
+                if(n<=1000)
                     sum += n;
             }
             if(!negatives.isEmpty())
